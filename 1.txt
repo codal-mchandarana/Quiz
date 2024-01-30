@@ -1,0 +1,46 @@
+const checkAnswer = () => {
+    const selectedOption = document.querySelector("input[name='quiz']:checked")
+    let isChecked = false;
+
+    if (selectedOption) {
+        isChecked = true;
+        let answer = selectedOption.value
+        selectedValue[currentQuestion] = answer
+
+        if (data[currentQuestion].answer === answer) {
+            points++;
+
+            let index = -1;
+
+            for (let i = 0; i < incorrectAnswers.length; i++) {
+                if (incorrectAnswers[i].question === data[currentQuestion].question) {
+                    index = i;
+                    break;
+                }
+            }
+            if (index !== -1) {
+                incorrectAnswers.splice(index, 1)
+            }
+        }
+        else {
+            let index = -1;
+
+            for (let i = 0; i < incorrectAnswers.length; i++) {
+                if (incorrectAnswers[i].question === data[currentQuestion].question) {
+                    index = i;
+                    break;
+                }
+            }
+
+            if (index != -1) {
+                incorrectAnswers.push({
+                    question: data[currentQuestion].question,
+                    incorrectAnswer: answer,
+                    correctAnswer: data[currentQuestion].answer,
+                })
+            }
+        }
+    }
+
+    return isChecked
+}

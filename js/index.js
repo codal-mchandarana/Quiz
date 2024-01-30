@@ -6,10 +6,11 @@ const quizContainer = document.querySelector("#quiz");
 const nextButton = document.querySelector('#next');
 const prevButton = document.querySelector('#prev');
 const submitButton = document.querySelector("#submit");
-const skipButton = document.querySelector("#skip");
 const resultContainer = document.querySelector('#result');
 const retryButton = document.querySelector('#retry');
-const showAnswerButton = document.querySelector("#show_answer")
+const showAnswerButton = document.querySelector("#show_answer");
+const paginationElement = document.getElementById("Pagination");
+const mainElement = document.getElementById("toAdd");
 
 let currentQuestion = 0;
 let points = 0;
@@ -22,23 +23,62 @@ const initialised = () => {
     }
 }
 
+const check = () => {
+    let total = 0;
+
+    for (let element of selectedValue) {
+        if (element !== "")
+            total += 1;
+    }
+    return total==data.length;
+}
+
 initialised()
+
+/********* Adding element to the list *********/
+
+const adding = () => {
+
+    for (let i = data.length - 1; i >= 0; i--) {
+        let element = document.createElement('li')
+        element.className = "page-item";
+
+        let innerElement = document.createElement('a');
+        innerElement.className = "page-link";
+        element.style.cursor = "pointer"
+
+        innerElement.innerHTML = i + 1;
+
+        element.appendChild(innerElement);
+        mainElement.insertAdjacentElement('afterend', element);
+
+        element.addEventListener("click", () => {
+            currentQuestion = i;
+            displayQuestion()
+        })
+    }
+}
+
+adding();
 
 /********* Display question *********/
 
 const displayQuestion = () => {
     const questionData = data[currentQuestion]
 
+    if (check == data.length)
+        submitButton.disabled = false;
+
     if (currentQuestion == 0)
         prevButton.classList.add('hide')
     else
         prevButton.classList.remove('hide')
 
-
-    if (currentQuestion == data.length - 1)
-        submitButton.classList.remove('hide'), nextButton.classList.add('hide'), skipButton.classList.add('hide');
+    if(currentQuestion==data.length)
+       nextButton.classList.add('hide')
     else
-        submitButton.classList.add('hide'), nextButton.classList.remove('hide'), skipButton.classList.remove('hide');
+       nextButton.classList.remove('hide')
+
 
     const questionElement = document.createElement('div');
     questionElement.className = 'question';
@@ -61,6 +101,13 @@ const displayQuestion = () => {
 
         if (radio.value == selectedValue[currentQuestion])
             radio.checked = true;
+        
+        radio.addEventListener("click",()=>{
+            selectedValue[currentQuestion] = radio.value
+            if(check()){
+                submitButton.disabled = false;
+            }
+        })
 
         const optionText = document.createTextNode(`${item}`);
         option.appendChild(radio);
@@ -78,38 +125,20 @@ prevButton.addEventListener('click', () => {
     displayQuestion()
 })
 
-const addAnswerToThearray = () => {
-    const selectedOption = document.querySelector("input[name='quiz']:checked")
-    let isChecked = false;
-    if (selectedOption) {
-        selectedValue[currentQuestion] = selectedOption.value
-        isChecked = true;
-    }
-    return isChecked
-}
 
 nextButton.addEventListener('click', () => {
-    if (addAnswerToThearray()) {
-        currentQuestion += 1
-        displayQuestion()
-    }
-
-})
-
-skipButton.addEventListener('click', () => {
-    currentQuestion += 1;
-    selectedValue[currentQuestion] = ""
+    currentQuestion += 1
     displayQuestion()
 })
 
 submitButton.addEventListener('click', () => {
-    addAnswerToThearray()
     let point = checkAnswer1();
     quizContainer.innerHTML = ''
     submitButton.classList.add('hide')
     prevButton.classList.add('hide')
     retryButton.classList.remove('hide')
     showAnswerButton.classList.remove('hide')
+    paginationElement.classList.add('hide');
     resultContainer.innerHTML = `You scored ${point} out of ${data.length}`
 })
 
@@ -120,7 +149,10 @@ retryButton.addEventListener('click', () => {
     resultContainer.innerHTML = '';
     retryButton.classList.add('hide');
     showAnswerButton.classList.add('hide');
+    submitButton.disabled = true;
     quizContainer.classList.remove('hide')
+    paginationElement.classList.remove('hide')
+    submitButton.classList.remove('hide')
     initialised()
     displayQuestion()
 })
@@ -167,8 +199,9 @@ showAnswerButton.addEventListener('click', () => {
 
     resultContainer.innerHTML = `
       <p>You scored ${points} out of ${data.length}!</p>
-      ${incorrectAnswers.length == 0 && points == 0 ? "<p>You have not attempted any question" : "<p>Incorrect Answers:</p>" + incorrectAnswersHtml}
-    `;
+      <p>Incorrect Answers:</p>"
+      ${incorrectAnswersHtml}`;
+
 })
 
 displayQuestion()

@@ -53,32 +53,25 @@
             <h1 style="margin-bottom: 2rem;">Quiz App</h1>
             <div id="quiz"></div>
             <div id="result" class="result none"></div>
-            <button id="prev" class="button">Prev</button>
-            <button id="next" class="button ">Next</button>
-            <button id="skip" class="button ">Skip</button>
-            <button id="submit" class="button hide">Submit</button>
-            <button id="retry" class="button hide">Retry</button>
-            <button id="show_answer" class="button hide">Show Answer</button>
-            <button id="showAnswer" class="button hide">Show Answer</button>
+            <!-- <button id="prev" class="button">Prev</button> -->
+            <!-- <button id="next" class="button my-2 ">Next</button> -->
+            <button id="submit" class="button btn-submit" disabled>Submit-Quiz</button>
+            <button id="retry" class="button hide mt-2">Retry</button>
+            <button id="show_answer" class="button hide mt-2">Show Answer</button>
+            <div id="Pagination">
+                <nav aria-label="Page navigation example">
+                    <ul  class="pagination justify-content-center">
+                        <li id="toAdd" class="page-item">
+                            <a id="prev" class="page-link" href="#" tabindex="-1">&laquo;</a>
+                        </li>
+                        <li  class="page-item">
+                            <a id="next" class="page-link" href="#">&raquo;</a>
+                        </li>
+                    </ul>
+                </nav>
+            </div>
         </div>
 
-        <!-- <div>
-            <nav aria-label="...">
-                <ul class="pagination">
-                    <li class="page-item disabled">
-                        <a class="page-link" href="#" tabindex="-1" aria-disabled="true">Previous</a>
-                    </li>
-                    <li class="page-item"><a class="page-link" href="#">1</a></li>
-                    <li class="page-item active" aria-current="page">
-                        <a class="page-link" href="#">2</a>
-                    </li>
-                    <li class="page-item"><a class="page-link" href="#">3</a></li>
-                    <li class="page-item">
-                        <a class="page-link" href="#">Next</a>
-                    </li>
-                </ul>
-            </nav>
-        </div> -->
     </section>
 
 

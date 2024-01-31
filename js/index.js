@@ -74,7 +74,7 @@ const displayQuestion = () => {
     else
         prevButton.classList.remove('hide')
 
-    if(currentQuestion==data.length)
+    if(currentQuestion==data.length-1)
        nextButton.classList.add('hide')
     else
        nextButton.classList.remove('hide')
